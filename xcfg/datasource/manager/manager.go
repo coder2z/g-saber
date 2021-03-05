@@ -3,10 +3,10 @@ package manager
 import (
 	"errors"
 	"github.com/coder2m/g-saber/xconsole"
-	"github.com/coder2m/component/xcfg"
-	"github.com/coder2m/component/xcfg/datasource/apollo"
-	"github.com/coder2m/component/xcfg/datasource/etcdv3"
-	"github.com/coder2m/component/xcfg/datasource/file"
+	"github.com/coder2m/g-saber/xcfg"
+	"github.com/coder2m/g-saber/xcfg/datasource/apollo"
+	"github.com/coder2m/g-saber/xcfg/datasource/etcdv3"
+	"github.com/coder2m/g-saber/xcfg/datasource/file"
 	"net/url"
 )
 

@@ -6,7 +6,7 @@ package xlog
 
 import (
 	"fmt"
-	cfg "github.com/coder2m/component/xcfg"
+	cfg "github.com/coder2m/g-saber/xcfg"
 	"github.com/coder2m/g-saber/xcolor"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

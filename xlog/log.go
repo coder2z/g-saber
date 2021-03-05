@@ -2,9 +2,9 @@ package xlog
 
 import (
 	"fmt"
+	"github.com/coder2m/g-saber/xcfg"
 	"github.com/coder2m/g-saber/xcolor"
 	"github.com/coder2m/g-saber/xdefer"
-	"github.com/coder2m/component/xcfg"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"log"
@@ -28,8 +28,6 @@ var (
 	Uint = zap.Uint
 	// Duration ...
 	Duration = zap.Duration
-	// Durationp ...
-	Durationp = zap.Durationp
 	// Object ...
 	Object = zap.Object
 	// Namespace ...

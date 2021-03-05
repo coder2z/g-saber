@@ -1,7 +1,7 @@
 package apollo
 
 import (
-	"github.com/coder2m/component/xcfg"
+	"github.com/coder2m/g-saber/xcfg"
 	"github.com/philchia/agollo/v4"
 )
 
