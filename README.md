@@ -20,6 +20,7 @@ Encapsulate many tool functions and methods, and continue to update. Most of the
 ```
 xcast       = > type conversion
 xcode       = > coder code management
+xcfg        = > config
 xcolor      = > color formatting
 xconsole    = > console output
 xdefer      = > stack execution method
@@ -28,6 +29,7 @@ xfile       = > file folder operating
 xflag       = > cobra secondary packaging
 xgp         = > coroutine pool
 xjson       = > json operating
+xlog        = > log
 xnet        = > network operating
 xreminder   = > task execution
 xsignls     = > signal management
