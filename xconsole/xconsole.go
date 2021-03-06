@@ -26,7 +26,7 @@ func Yellowf(msg string, arg interface{}) {
 	if !debug {
 		return
 	}
-	fmt.Print(xcolor.Yellowf(fmt.Sprintf("[xconsole]\t%-40v", msg), arg))
+	fmt.Print(xcolor.Yellowf(fmt.Sprintf("[xconsole]\t%-20v", msg), arg))
 }
 
 // Red ...
@@ -42,7 +42,7 @@ func Redf(msg string, arg interface{}) {
 	if !debug {
 		return
 	}
-	fmt.Print(xcolor.Redf(fmt.Sprintf("[xconsole]\t%-40v", msg), arg))
+	fmt.Print(xcolor.Redf(fmt.Sprintf("[xconsole]\t%-20v", msg), arg))
 }
 
 // Blue ...
@@ -58,7 +58,7 @@ func Bluef(msg string, arg interface{}) {
 	if !debug {
 		return
 	}
-	fmt.Print(xcolor.Bluef(fmt.Sprintf("[xconsole]\t%-40v", msg), arg))
+	fmt.Print(xcolor.Bluef(fmt.Sprintf("[xconsole]\t%-20v", msg), arg))
 }
 
 // Green ...
@@ -74,5 +74,5 @@ func Greenf(msg string, arg interface{}) {
 	if !debug {
 		return
 	}
-	fmt.Print(xcolor.Greenf(fmt.Sprintf("[xconsole]\t%-40v", msg), arg))
+	fmt.Print(xcolor.Greenf(fmt.Sprintf("[xconsole]\t%-20v", msg), arg))
 }
