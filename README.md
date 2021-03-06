@@ -19,7 +19,6 @@ Encapsulate many tool functions and methods, and continue to update. Most of the
 
 ```
 xcast       = > type conversion
-xcode       = > coder code management
 xcfg        = > config
 xcolor      = > color formatting
 xconsole    = > console output
