@@ -6,11 +6,15 @@ import (
 
 func logger() *Logger {
 	if defaultLogger == nil {
-		cfg := defaultConfig()
-		cfg.ConfigKey = "xlog"
+		cfg := StdConfig()
 		defaultLogger = cfg.Build()
 	}
 	return defaultLogger
+}
+
+func SetDefaultLogger(o *options) {
+	defaultLogger = o.Build()
+	return
 }
 
 var defaultLogger *Logger

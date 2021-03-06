@@ -58,8 +58,11 @@ func RawConfig(key string) *options {
 }
 
 // StdConfig xlog
-func StdConfig(name string) *options {
-	return RawConfig("xlog." + name)
+func StdConfig(name ...string) *options {
+	if len(name) == 0 {
+		return RawConfig("xlog")
+	}
+	return RawConfig("xlog." + name[0])
 }
 
 // DefaultConfig ...
