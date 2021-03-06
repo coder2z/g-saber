@@ -4,13 +4,13 @@ Named from the Swiss Army Knife.This is a golang development kit.
 
 ![](https://img.shields.io/badge/windowns10-Development-d0d1d4)
 ![](https://img.shields.io/badge/golang-1.16-blue)
-[![](https://img.shields.io/badge/godoc-reference-3C57C4)](https://pkg.go.dev/github.com/coder2m/g-saber)
+[![](https://img.shields.io/badge/godoc-reference-3C57C4)](https://pkg.go.dev/github.com/coder2z/g-saber)
 ![](https://img.shields.io/badge/version-0.1.0-r)
 
 ## :rocket:Installation
 
 `
-go get -u github.com/coder2m/g-saber
+go get -u github.com/coder2z/g-saber
 `
 
 ## :bell:Features

@@ -7,9 +7,9 @@ package xlog
 import (
 	"errors"
 	"fmt"
-	cfg "github.com/coder2m/g-saber/xcfg"
-	"github.com/coder2m/g-saber/xcolor"
-	"github.com/coder2m/g-saber/xconsole"
+	cfg "github.com/coder2z/g-saber/xcfg"
+	"github.com/coder2z/g-saber/xcolor"
+	"github.com/coder2z/g-saber/xconsole"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"

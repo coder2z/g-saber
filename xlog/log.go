@@ -2,9 +2,9 @@ package xlog
 
 import (
 	"fmt"
-	"github.com/coder2m/g-saber/xcfg"
-	"github.com/coder2m/g-saber/xcolor"
-	"github.com/coder2m/g-saber/xdefer"
+	"github.com/coder2z/g-saber/xcfg"
+	"github.com/coder2z/g-saber/xcolor"
+	"github.com/coder2z/g-saber/xdefer"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"log"

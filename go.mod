@@ -1,4 +1,4 @@
-module github.com/coder2m/g-saber
+module github.com/coder2z/g-saber
 
 go 1.16
 
