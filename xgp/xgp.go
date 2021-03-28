@@ -134,7 +134,7 @@ func (t *poolExecutor) Submit(f func(), ef func(error)) {
 				stack := debug.Stack()
 				buf.Write(stack)
 				err := fmt.Errorf("gp: panic recovered: %s \n %s", err, buf.String())
-				if ef == nil {
+				if ef != nil {
 					ef(err)
 				} else {
 					panic(err)
@@ -160,7 +160,7 @@ func (t *waitPoolExecutor) Submit(f func(), ef func(error)) {
 				stack := debug.Stack()
 				buf.Write(stack)
 				err := fmt.Errorf("gp: panic recovered: %s \n %s", err, buf.String())
-				if ef == nil {
+				if ef != nil {
 					ef(err)
 				} else {
 					panic(err)
