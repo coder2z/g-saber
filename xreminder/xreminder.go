@@ -8,18 +8,28 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
-type options struct {
-	Spec []string `json:"spec,omitempty" yaml:"spec"`
+type config struct {
+	Spec []string
 }
 
-func NewReminderOptions() *options {
-	return &options{
-		Spec: []string{"* * * * * *"},
+type OptionFunc func(o *config)
+
+func SetSpec(s []string) OptionFunc {
+	return func(o *config) {
+		o.Spec = s
 	}
 }
 
+func NewReminderCfg(of ...OptionFunc) *config {
+	o := new(config)
+	for _, optionFunc := range of {
+		optionFunc(o)
+	}
+	return o
+}
+
 type cronServer struct {
-	o *options
+	o *config
 	c *cron.Cron
 }
 
@@ -32,6 +42,6 @@ func (r *cronServer) Run(stopCh <-chan struct{}, f cron.Job) {
 	r.c.Stop()
 }
 
-func NewReminderClient(o *options) *cronServer {
+func NewReminderClient(o *config) *cronServer {
 	return &cronServer{c: cron.New(), o: o}
 }
