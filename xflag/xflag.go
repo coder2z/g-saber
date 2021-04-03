@@ -48,7 +48,12 @@ func Register(fs ...CommandNode) {
 
 func RegisterSpecify(cnd *CommandNode, fs ...CommandNode) {
 	for _, c := range fs {
-		c.Flags(c.Command)
+		if c.Command == nil || c.Name == "" {
+			panic("command node name or comment is not nil ")
+		}
+		if c.Flags != nil {
+			c.Flags(c.Command)
+		}
 		cnd.Command.AddCommand(c.Command)
 		bucket.instances.Store(c.Name, c.Command)
 	}
