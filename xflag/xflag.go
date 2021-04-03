@@ -39,9 +39,13 @@ func NewRootCommand(c *Command) {
 }
 
 func Register(fs ...CommandNode) {
+	RegisterSpecify(defaultFlags, fs...)
+}
+
+func RegisterSpecify(commend *Command, fs ...CommandNode) {
 	for _, c := range fs {
 		c.Flags(c.Command)
-		defaultFlags.AddCommand(c.Command)
+		commend.AddCommand(c.Command)
 		bucket.instances.Store(c.Name, c.Command)
 	}
 }
