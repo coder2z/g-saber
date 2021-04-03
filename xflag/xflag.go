@@ -25,16 +25,20 @@ type (
 )
 
 var (
-	defaultFlags = &Command{
-		Use:                "app",
-		DisableSuggestions: false,
+	defaultFlags = &CommandNode{
+		Name: "app",
+		Command: &Command{
+			Use:                "app",
+			DisableSuggestions: false,
+		},
+		Flags: nil,
 	}
 	bucket = &storage{
 		instances: sync.Map{},
 	}
 )
 
-func NewRootCommand(c *Command) {
+func NewRootCommand(c *CommandNode) {
 	defaultFlags = c
 }
 
@@ -42,16 +46,16 @@ func Register(fs ...CommandNode) {
 	RegisterSpecify(defaultFlags, fs...)
 }
 
-func RegisterSpecify(commend *Command, fs ...CommandNode) {
+func RegisterSpecify(cnd *CommandNode, fs ...CommandNode) {
 	for _, c := range fs {
 		c.Flags(c.Command)
-		commend.AddCommand(c.Command)
+		cnd.Command.AddCommand(c.Command)
 		bucket.instances.Store(c.Name, c.Command)
 	}
 }
 
 func Parse() error {
-	return defaultFlags.Execute()
+	return defaultFlags.Command.Execute()
 }
 
 func NString(nodeName, name string) string {
