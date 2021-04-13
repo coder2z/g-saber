@@ -1,8 +1,3 @@
-/**
- * @Author: yangon
- * @Description
- * @Date: 2020/12/22 19:03
- **/
 package xcast
 
 import (

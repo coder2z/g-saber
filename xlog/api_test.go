@@ -1,8 +1,3 @@
-/**
- * @Author: yangon
- * @Description
- * @Date: 2021/3/5 17:35
- **/
 package xlog
 
 import (

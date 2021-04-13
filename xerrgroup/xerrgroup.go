@@ -1,8 +1,3 @@
-/**
- * @Author: yangon
- * @Description
- * @Date: 2020/12/25 15:04
- **/
 package xerrgroup
 
 import (

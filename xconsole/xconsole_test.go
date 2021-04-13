@@ -1,8 +1,3 @@
-/**
- * @Author: yangon
- * @Description
- * @Date: 2021/3/5 17:26
- **/
 package xconsole
 
 import "testing"

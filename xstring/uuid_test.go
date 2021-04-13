@@ -1,8 +1,3 @@
-/**
- * @Author: yangon
- * @Description
- * @Date: 2021/3/5 18:06
- **/
 package xstring
 
 import (
