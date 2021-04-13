@@ -47,6 +47,9 @@ func Register(fs ...CommandNode) {
 }
 
 func RegisterSpecify(cnd *CommandNode, fs ...CommandNode) {
+	if cnd.Flags != nil {
+		cnd.Flags(cnd.Command)
+	}
 	for _, c := range fs {
 		if c.Command == nil || c.Name == "" {
 			panic("command node name or comment is not nil ")
