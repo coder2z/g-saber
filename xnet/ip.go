@@ -39,7 +39,7 @@ func GetLocalMainIP() (string, int, error) {
 func GetMacAddrs() (macAddrs []string) {
 	netInterfaces, err := net.Interfaces()
 	if err != nil {
-		fmt.Printf("fail to get net interfaces: %v", err)
+		panic(fmt.Sprintf("fail to get net interfaces: %v", err))
 		return macAddrs
 	}
 
@@ -58,7 +58,7 @@ func GetMacAddrs() (macAddrs []string) {
 func GetIPs() (ips []string) {
 	interfaceAddr, err := net.InterfaceAddrs()
 	if err != nil {
-		fmt.Printf("fail to get net interface addrs: %v", err)
+		panic(fmt.Sprintf("fail to get net interface addrs: %v", err))
 		return ips
 	}
 

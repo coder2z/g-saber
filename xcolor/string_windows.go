@@ -1,54 +1,47 @@
+// +build windows
+
 package xcolor
 
 import (
 	"fmt"
-	"math/rand"
-	"strconv"
 )
-
-var _ = RandomColor()
-
-// RandomColor generates a random color.
-func RandomColor() string {
-	return fmt.Sprintf("#%s", strconv.FormatInt(int64(rand.Intn(16777216)), 16))
-}
 
 // Yellow ...
 func Yellow(msg string) string {
-	return fmt.Sprintf("\x1b[33m%s\x1b[0m", msg)
+	return fmt.Sprintf("%s", msg)
 }
 
-// Yellowf ...
+// Yellow ...
 func Yellowf(msg string, arg interface{}) string {
-	return fmt.Sprintf("\x1b[33m%s\x1b[0m %+v\n", msg, arg)
+	return fmt.Sprintf("%s %+v\n", msg, arg)
 }
 
 // Red ...
 func Red(msg string) string {
-	return fmt.Sprintf("\x1b[31m%s\x1b[0m", msg)
+	return fmt.Sprintf("%s", msg)
 }
 
 // Redf ...
 func Redf(msg string, arg interface{}) string {
-	return fmt.Sprintf("\x1b[31m%s\x1b[0m %+v\n", msg, arg)
+	return fmt.Sprintf("%s %+v\n", msg, arg)
 }
 
 // Blue ...
 func Blue(msg string) string {
-	return fmt.Sprintf("\x1b[34m%s\x1b[0m", msg)
+	return fmt.Sprintf("%s", msg)
 }
 
-// Bluef ...
+// Greenf ...
 func Bluef(msg string, arg interface{}) string {
-	return fmt.Sprintf("\x1b[34m%s\x1b[0m %+v\n", msg, arg)
+	return fmt.Sprintf("%s %+v\n", msg, arg)
 }
 
 // Green ...
 func Green(msg string) string {
-	return fmt.Sprintf("\x1b[32m%s\x1b[0m", msg)
+	return fmt.Sprintf("%s", msg)
 }
 
 // Greenf ...
 func Greenf(msg string, arg interface{}) string {
-	return fmt.Sprintf("\x1b[32m%s\x1b[0m %+v\n", msg, arg)
+	return fmt.Sprintf("%s %+v\n", msg, arg)
 }
