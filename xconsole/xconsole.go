@@ -21,7 +21,7 @@ func Yellow(msg string) {
 	fmt.Print(xcolor.Yellow(fmt.Sprintf("[xconsole]\t%v\n", msg)))
 }
 
-// Redf ...
+// Yellowf ...
 func Yellowf(msg string, arg interface{}) {
 	if !debug {
 		return
@@ -53,7 +53,7 @@ func Blue(msg string) {
 	fmt.Print(xcolor.Blue(fmt.Sprintf("[xconsole]\t%v\n", msg)))
 }
 
-// Greenf ...
+// Bluef ...
 func Bluef(msg string, arg interface{}) {
 	if !debug {
 		return
