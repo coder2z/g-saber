@@ -38,6 +38,11 @@ func FieldCode(value int32) Field {
 	return Int32("code", value)
 }
 
+// FieldTid 设置链路id
+func FieldTid(value string) Field {
+	return String("tid", value)
+}
+
 func FieldSize(value int32) Field {
 	return Int32("size", value)
 }
@@ -91,10 +96,6 @@ func FieldMethod(value string) Field {
 	return String("method", value)
 }
 
-// FieldEvent ...
-func FieldEvent(value string) Field {
-	return String("event", value)
-}
 
 func FieldIp(value string) Field {
 	return String("ip", value)

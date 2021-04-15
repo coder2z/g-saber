@@ -59,20 +59,18 @@ func newLogger(o *options) *Logger {
 	if o.AddCaller {
 		zapOptions = append(zapOptions, zap.AddCaller(), zap.AddCallerSkip(o.CallerSkip))
 	}
-	if len(o.Fields) > 0 {
-		zapOptions = append(zapOptions, zap.Fields(o.Fields...))
+	if len(o.fields) > 0 {
+		zapOptions = append(zapOptions, zap.Fields(o.fields...))
 	}
 
-	var ws zapcore.WriteSyncer
+	var ws = zapcore.AddSync(newRotate(o))
 	if o.Debug {
-		ws = os.Stdout
-	} else {
-		ws = zapcore.AddSync(newRotate(o))
+		ws = zap.CombineWriteSyncers(os.Stdout, ws)
 	}
 
 	if o.Async {
 		var closeFunc CloseFunc
-		ws, closeFunc = Buffer(ws, defaultBufferSize, defaultFlushInterval)
+		ws, closeFunc = Buffer(ws, o.FlushBufferSize, o.FlushBufferInterval)
 
 		xdefer.Register(closeFunc)
 	}
@@ -82,8 +80,8 @@ func newLogger(o *options) *Logger {
 		panic(err)
 	}
 
-	encoderConfig := *o.EncoderConfig
-	core := o.Core
+	encoderConfig := *o.encoderConfig
+	core := o.core
 	if core == nil {
 		core = zapcore.NewCore(
 			func() zapcore.Encoder {

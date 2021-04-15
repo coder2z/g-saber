@@ -2,13 +2,14 @@ package xlog
 
 import (
 	"go.uber.org/zap"
+	"sync"
 )
 
 func logger() *Logger {
-	if defaultLogger == nil {
+	one.Do(func() {
 		cfg := StdConfig()
 		defaultLogger = cfg.Build()
-	}
+	})
 	return defaultLogger
 }
 
@@ -16,12 +17,15 @@ func DefaultLogger() *Logger {
 	return logger()
 }
 
-func SetDefaultLogger(o *options) {
-	defaultLogger = o.Build()
+func SetDefaultLogger(l *Logger) {
+	defaultLogger = l
 	return
 }
 
-var defaultLogger *Logger
+var (
+	defaultLogger *Logger
+	one           = sync.Once{}
+)
 
 // Auto ...
 func Auto(err error) Func {
