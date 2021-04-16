@@ -1,0 +1,12 @@
+2021-04-16 16:28:43	INFO	xlog/api_test.go:9	test                            	{"error": "error"}
+2021-04-16 16:28:43	WARN	xlog/api_test.go:10	test                            	{"error": "error"}
+2021-04-16 16:28:43	ERROR	xlog/api_test.go:11	test                            	{"error": "error"}
+2021-04-16 16:30:57	INFO	xlog/api_test.go:9		test                            	{"error": "error"}
+2021-04-16 16:30:57	WARN	xlog/api_test.go:10		test                            	{"error": "error"}
+2021-04-16 16:30:57	ERROR	xlog/api_test.go:11		test                            	{"error": "error"}
+2021-04-16 16:31:12	INFO	xlog/api_test.go:9			test                            	{"error": "error"}
+2021-04-16 16:31:12	WARN	xlog/api_test.go:10			test                            	{"error": "error"}
+2021-04-16 16:31:12	ERROR	xlog/api_test.go:11			test                            	{"error": "error"}
+2021-04-16 16:31:26	INFO	xlog/api_test.go:9				test                            	{"error": "error"}
+2021-04-16 16:31:26	WARN	xlog/api_test.go:10				test                            	{"error": "error"}
+2021-04-16 16:31:26	ERROR	xlog/api_test.go:11				test                            	{"error": "error"}
