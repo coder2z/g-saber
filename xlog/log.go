@@ -143,7 +143,7 @@ func (logger *Logger) Debugf(template string, args ...interface{}) {
 }
 
 func normalizeMessage(msg string) string {
-	return fmt.Sprintf("%-16s", msg)
+	return fmt.Sprintf("%-32s", msg)
 }
 
 // Info ...
