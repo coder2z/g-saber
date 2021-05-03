@@ -10,7 +10,7 @@ import (
 
 const (
 	defaultReplicas = 10
-	salt            = "712&%BF^*(@"
+	defaultSalt     = "712&%BF^*(@"
 )
 
 type units []uint32
@@ -69,7 +69,7 @@ func NewConsistent(replicas int, salt string, hf HashFunc) *consistentHash {
 		h.hash = defaultHash
 	}
 	if salt == "" {
-		h.salt = salt
+		h.salt = defaultSalt
 	}
 	return &h
 }
