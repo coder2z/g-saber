@@ -68,8 +68,8 @@ func NewConsistent(replicas uint, salt string, hf HashFunc) *consistentHash {
 	if h.hash == nil {
 		h.hash = defaultHash
 	}
-	if h.hash == nil {
-		h.hash = defaultHash
+	if salt == "" {
+		h.salt = salt
 	}
 	return &h
 }
