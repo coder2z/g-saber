@@ -18,7 +18,6 @@ go get -u github.com/coder2z/g-saber
 Encapsulate many tool functions and methods, and continue to update. Most of the methods are open source and other open source projects.
 
 ```
-xcast       = > type conversion
 xcfg        = > config
 xcolor      = > color formatting
 xconsole    = > console output
