@@ -28,7 +28,7 @@ func TestPG(t *testing.T) {
 
 	pool.Submit(func() {
 		time.Sleep(8 * time.Second)
-		panic("test4")
+		xconsole.Red("test4")
 	}, func(err error) {
 		xconsole.Red(err.Error())
 	})
