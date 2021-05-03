@@ -34,7 +34,7 @@ type consistentHash struct {
 	//已经排序的节点hash切片
 	sortedHashes units
 	//虚拟节点个数，用来增加hash的平衡性
-	virtualNode int
+	virtualNode uint
 	//map 读写锁
 	sync.RWMutex
 	//hash 方法
@@ -52,7 +52,7 @@ func defaultHash(data []byte) uint32 {
 }
 
 //NewConsistent 创建一致性hash算法结构体，设置默认节点数量
-func NewConsistent(replicas int, salt string, hf HashFunc) *consistentHash {
+func NewConsistent(replicas uint, salt string, hf HashFunc) *consistentHash {
 	h := consistentHash{
 		//初始化变量
 		circle: make(map[uint32]string),
