@@ -10,8 +10,10 @@ require (
 	github.com/json-iterator/go v1.1.10
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/modern-go/reflect2 v1.0.1
+	github.com/pkg/errors v0.8.1
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/cobra v1.1.3
 	go.uber.org/zap v1.10.0
+	golang.org/x/sync v0.0.0-20190423024810-112230192c58
 )
