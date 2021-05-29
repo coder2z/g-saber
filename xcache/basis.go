@@ -32,7 +32,7 @@ func (b basis) Del(keys ...string) error {
 	return nil
 }
 
-func (b basis) Get(key string) ([]byte, error) {
+func (b basis) GetE(key string) ([]byte, error) {
 	node, ok := b.data[key]
 	if !ok {
 		return nil, nilError
@@ -44,20 +44,33 @@ func (b basis) Get(key string) ([]byte, error) {
 	return node.data, nil
 }
 
-func (b basis) GetWithCreate(key string, h Handle) ([]byte, error) {
-	data, err := b.Get(key)
+func (b basis) Get(key string) []byte {
+	data, _ := b.GetE(key)
+	return data
+}
+
+func (b basis) GetWithCreateE(key string, h Handle) ([]byte, error) {
+	data, err := b.GetE(key)
 	if err == nil {
 		return data, err
 	}
 	if !b.IsNilError(err) {
 		return nil, err
 	}
-	data, err = h.Create()
+	do, err, _ := b.loadGroup.Do(key, func() (interface{}, error) {
+		return h.Create()
+	})
 	if err != nil {
 		return nil, errors.Wrap(err, "x cache create data error")
 	}
+	data, _ = do.([]byte)
 	b.doSetWithData(key, data, h.Expire())
 	return data, nil
+}
+
+func (b basis) GetWithCreate(key string, h Handle) []byte {
+	data, _ := b.GetWithCreateE(key, h)
+	return data
 }
 
 func (b basis) doSetWithData(key string, data []byte, expire time.Duration) {
@@ -68,10 +81,13 @@ func (b basis) doSetWithData(key string, data []byte, expire time.Duration) {
 }
 
 func (b basis) Set(key string, h Handle) error {
-	data, err := h.Create()
+	do, err, _ := b.loadGroup.Do(key, func() (interface{}, error) {
+		return h.Create()
+	})
 	if err != nil {
 		return errors.Wrap(err, "x cache create data error")
 	}
+	data, _ := do.([]byte)
 	b.doSetWithData(key, data, h.Expire())
 	return nil
 }

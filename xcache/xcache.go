@@ -36,12 +36,14 @@ type (
 		//
 		Del(keys ...string) error
 		//
-		// Get
+		// GetE
 		// @Description: 获取缓存
 		// @param key string
 		// @return error
 		//
-		Get(key string) ([]byte, error)
+		GetE(key string) ([]byte, error)
+
+		Get(key string) []byte
 		//
 		// GetWithCreate 获取缓存，如果没有就使用Handle创建并放回
 		// @Description:
@@ -50,7 +52,9 @@ type (
 		// @param h Handle
 		// @return error
 		//
-		GetWithCreate(key string, h Handle) ([]byte, error)
+		GetWithCreateE(key string, h Handle) ([]byte, error)
+
+		GetWithCreate(key string, h Handle) []byte
 		//
 		// Set
 		// @Description: 设置缓存
