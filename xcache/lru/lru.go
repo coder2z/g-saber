@@ -8,8 +8,6 @@ type Cache struct {
 	nbytes   int64
 	ll       *list.List
 	cache    map[string]*list.Element
-	// optional and executed when an entry is purged.
-	OnEvicted func(key string, value Value)
 }
 
 type entry struct {
@@ -17,18 +15,16 @@ type entry struct {
 	value Value
 }
 
-// Value use Len to count how many bytes it takes
 type Value interface {
 	Len() int
 }
 
 // New is the Constructor of Cache
-func New(maxBytes int64, onEvicted func(string, Value)) *Cache {
+func New(maxBytes int64) *Cache {
 	return &Cache{
-		maxBytes:  maxBytes,
-		ll:        list.New(),
-		cache:     make(map[string]*list.Element),
-		OnEvicted: onEvicted,
+		maxBytes: maxBytes,
+		ll:       list.New(),
+		cache:    make(map[string]*list.Element),
 	}
 }
 
@@ -67,9 +63,6 @@ func (c *Cache) RemoveOldest() {
 		kv := ele.Value.(*entry)
 		delete(c.cache, kv.key)
 		c.nbytes -= int64(len(kv.key)) + int64(kv.value.Len())
-		if c.OnEvicted != nil {
-			c.OnEvicted(kv.key, kv.value)
-		}
 	}
 }
 
