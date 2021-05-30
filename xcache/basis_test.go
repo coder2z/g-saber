@@ -1,31 +1,31 @@
 package xcache
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
 
-type testdata struct {
-}
+type testdata struct{}
 
 func (t testdata) Create() ([]byte, error) {
-	return []byte("静安里看风景阿卡丽大家啊就完蛋了卡"), nil
+	return []byte("test"), nil
 }
 
 func (t testdata) Expire() time.Duration {
-	return 0
+	return time.Second * 3
 }
 
-func TestName(t *testing.T) {
-	b := NewBasis()
+func BenchmarkBasis(b *testing.B) {
+	b.ReportAllocs()
+	b.StopTimer()
+	c := NewBasis()
+	b.StartTimer()
 
-	err := b.Set("key", new(testdata))
-	if err != nil {
-		return
+	for i := 0; i < b.N; i++ {
+		_ = c.Set(fmt.Sprintf("key_%d", i), new(testdata))
+		if string(c.Get(fmt.Sprintf("key_%d", i))) != "test" {
+			b.Error("data error ")
+		}
 	}
-	data, err := b.Get("key")
-	if err != nil {
-		return
-	}
-	t.Log(string(data))
 }

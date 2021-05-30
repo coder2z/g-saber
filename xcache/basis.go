@@ -13,8 +13,9 @@ type (
 	}
 
 	node struct {
-		data   []byte
-		expire time.Duration
+		data      []byte
+		expire    time.Duration
+		creatTime time.Time
 	}
 )
 
@@ -37,7 +38,7 @@ func (b basis) GetE(key string) ([]byte, error) {
 	if !ok {
 		return nil, nilError
 	}
-	if b.checkExpire(node.expire) {
+	if b.checkExpire(node) {
 		b.doDel(key)
 		return nil, nilError
 	}
@@ -75,8 +76,9 @@ func (b basis) GetWithCreate(key string, h Handle) []byte {
 
 func (b basis) doSetWithData(key string, data []byte, expire time.Duration) {
 	b.data[key] = node{
-		data:   data,
-		expire: expire,
+		creatTime: time.Now(),
+		data:      data,
+		expire:    expire,
 	}
 }
 
@@ -100,11 +102,11 @@ func (b basis) IsExist(key string) bool {
 	return b.doIsExist(key) == nilError
 }
 
-func (b basis) checkExpire(ts time.Duration) bool {
-	if ts.Nanoseconds() == 0 {
+func (b basis) checkExpire(n node) bool {
+	if n.expire == 0 {
 		return false
 	}
-	return time.Now().UnixNano() > ts.Nanoseconds()
+	return time.Now().After(n.creatTime.Add(n.expire))
 }
 
 func (b basis) doIsExist(key string) error {
