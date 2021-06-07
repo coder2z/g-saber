@@ -1,6 +1,7 @@
 package xcache
 
 import (
+	"context"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/singleflight"
 	"time"
@@ -10,6 +11,7 @@ type (
 	basis struct {
 		data      map[string]node
 		loadGroup *singleflight.Group
+		ctx       context.Context
 	}
 
 	node struct {
@@ -17,7 +19,21 @@ type (
 		expire    time.Duration
 		creatTime time.Time
 	}
+
+	do func() (interface{}, error)
 )
+
+func (b *basis) GetContext() context.Context {
+	if b.ctx == nil {
+		b.ctx = context.Background()
+	}
+	return b.ctx
+}
+
+func (b *basis) WithContext(ctx context.Context) Cache {
+	b.ctx = ctx
+	return b
+}
 
 func NewBasis() *basis {
 	return &basis{
@@ -26,23 +42,47 @@ func NewBasis() *basis {
 	}
 }
 
-func (b basis) Del(keys ...string) error {
-	for _, key := range keys {
-		b.doDel(key)
+func (b *basis) Del(keys ...string) error {
+	_, err := done(b.GetContext(), func() (interface{}, error) {
+		for _, key := range keys {
+			b.doDel(key)
+		}
+		return nil, nil
+	})
+	return err
+}
+
+func done(ctx context.Context, df do) (interface{}, error) {
+	var (
+		c   = make(chan struct{})
+		ret interface{}
+		err error
+	)
+	go func() {
+		ret, err = df()
+		close(c)
+	}()
+	select {
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	case <-c:
 	}
-	return nil
+	return ret, err
 }
 
 func (b basis) GetE(key string) ([]byte, error) {
-	node, ok := b.data[key]
-	if !ok {
-		return nil, nilError
-	}
-	if b.checkExpire(node) {
-		b.doDel(key)
-		return nil, nilError
-	}
-	return node.data, nil
+	ret, err := done(b.GetContext(), func() (interface{}, error) {
+		node, ok := b.data[key]
+		if !ok {
+			return nil, nilError
+		}
+		if b.checkExpire(node) {
+			b.doDel(key)
+			return nil, nilError
+		}
+		return node.data, nil
+	})
+	return toByte(ret, err)
 }
 
 func (b basis) Get(key string) []byte {
@@ -51,22 +91,27 @@ func (b basis) Get(key string) []byte {
 }
 
 func (b basis) GetWithCreateE(key string, h Handle) ([]byte, error) {
-	data, err := b.GetE(key)
-	if err == nil {
-		return data, err
-	}
-	if !b.IsNilError(err) {
-		return nil, err
-	}
-	do, err, _ := b.loadGroup.Do(key, func() (interface{}, error) {
-		return h.Create()
+	ret, err := done(b.GetContext(), func() (interface{}, error) {
+		data, err := b.GetE(key)
+		if err == nil {
+			return data, err
+		}
+		if !b.IsNilError(err) {
+			return nil, err
+		}
+		doData, err, _ := b.loadGroup.Do(key, func() (interface{}, error) {
+			data, err := h.Create(b.GetContext())
+			if err == nil {
+				b.doSetWithData(key, data, h.Expire())
+			}
+			return data, err
+		})
+		if err != nil {
+			return nil, errors.Wrap(err, "x cache create data error")
+		}
+		return doData, err
 	})
-	if err != nil {
-		return nil, errors.Wrap(err, "x cache create data error")
-	}
-	data, _ = do.([]byte)
-	b.doSetWithData(key, data, h.Expire())
-	return data, nil
+	return toByte(ret, err)
 }
 
 func (b basis) GetWithCreate(key string, h Handle) []byte {
@@ -83,15 +128,20 @@ func (b basis) doSetWithData(key string, data []byte, expire time.Duration) {
 }
 
 func (b basis) Set(key string, h Handle) error {
-	do, err, _ := b.loadGroup.Do(key, func() (interface{}, error) {
-		return h.Create()
+	_, err := done(b.GetContext(), func() (interface{}, error) {
+		_, err, _ := b.loadGroup.Do(key, func() (interface{}, error) {
+			data, err := h.Create(b.GetContext())
+			if err == nil {
+				b.doSetWithData(key, data, h.Expire())
+			}
+			return data, err
+		})
+		if err != nil {
+			return nil, errors.Wrap(err, "x cache create data error")
+		}
+		return nil, nil
 	})
-	if err != nil {
-		return errors.Wrap(err, "x cache create data error")
-	}
-	data, _ := do.([]byte)
-	b.doSetWithData(key, data, h.Expire())
-	return nil
+	return err
 }
 
 func (b basis) IsNilError(err error) bool {
@@ -99,7 +149,10 @@ func (b basis) IsNilError(err error) bool {
 }
 
 func (b basis) IsExist(key string) bool {
-	return b.doIsExist(key) == nilError
+	_, err := done(b.GetContext(), func() (interface{}, error) {
+		return nil, b.doIsExist(key)
+	})
+	return err == nilError
 }
 
 func (b basis) checkExpire(n node) bool {
@@ -118,4 +171,11 @@ func (b basis) doIsExist(key string) error {
 
 func (b basis) doDel(key string) {
 	delete(b.data, key)
+}
+
+func toByte(ret interface{}, err error) ([]byte, error) {
+	if data, ok := ret.([]byte); ok {
+		return data, err
+	}
+	return nil, err
 }

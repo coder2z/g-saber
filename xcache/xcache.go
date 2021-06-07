@@ -1,6 +1,7 @@
 package xcache
 
 import (
+	"context"
 	"errors"
 	"sync"
 	"time"
@@ -18,7 +19,7 @@ type (
 		// @return []byte
 		// @return error
 		//
-		Create() ([]byte, error)
+		Create(ctx context.Context) ([]byte, error)
 		//
 		// Expire
 		// @Description: 设置时间过期时间
@@ -44,6 +45,8 @@ type (
 		GetE(key string) ([]byte, error)
 
 		Get(key string) []byte
+
+		GetWithCreateE(key string, h Handle) ([]byte, error)
 		//
 		// GetWithCreate 获取缓存，如果没有就使用Handle创建并放回
 		// @Description:
@@ -52,8 +55,6 @@ type (
 		// @param h Handle
 		// @return error
 		//
-		GetWithCreateE(key string, h Handle) ([]byte, error)
-
 		GetWithCreate(key string, h Handle) []byte
 		//
 		// Set
@@ -77,6 +78,16 @@ type (
 		// @return bool
 		//
 		IsExist(key string) bool
+
+		//
+		// WithContext
+		// @Description:
+		// @param ctx context.Context
+		// @return Cache
+		//
+		WithContext(ctx context.Context) Cache
+
+		GetContext() context.Context
 	}
 
 	Basis struct {

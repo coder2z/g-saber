@@ -1,6 +1,7 @@
 package xcache
 
 import (
+	"context"
 	"fmt"
 	"testing"
 	"time"
@@ -8,8 +9,9 @@ import (
 
 type testdata struct{}
 
-func (t testdata) Create() ([]byte, error) {
-	return []byte("test"), nil
+func (t testdata) Create(ctx context.Context) ([]byte, error) {
+	time.Sleep(1900 * time.Millisecond)
+	return []byte("test Create"), nil
 }
 
 func (t testdata) Expire() time.Duration {
@@ -28,4 +30,21 @@ func BenchmarkBasis(b *testing.B) {
 			b.Error("data error ")
 		}
 	}
+}
+
+func TestBasis(t *testing.T) {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancelFunc()
+
+	c := NewBasis().WithContext(ctx)
+	if err := c.Set("abc", new(testdata)); err != nil {
+		t.Error(err)
+		return
+	}
+	data, err := c.GetE("abc")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Log(string(data))
 }
