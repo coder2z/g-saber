@@ -1,6 +1,7 @@
 package xcfg
 
 import (
+	"github.com/pelletier/go-toml"
 	"io"
 
 	"github.com/davecgh/go-spew/spew"
@@ -16,6 +17,8 @@ type DataSource interface {
 // Unmarshaler ...
 type Unmarshaler func([]byte, interface{}) error
 
+var DefaultConfigUnmarshaler = toml.Unmarshal
+
 var defaultConfiguration = New()
 
 // OnChange 注册change回调函数
@@ -30,7 +33,18 @@ func LoadFromDataSource(ds DataSource, unmarshaler Unmarshaler) error {
 	return defaultConfiguration.LoadFromDataSource(ds, unmarshaler)
 }
 
-// Load loads configuration from provided provider with default defaultConfiguration.
+// LoadFromConfigAddr load configuration from configAddr
+// eg:apollo://ip:port?appId=XXX&cluster=XXX&namespaceName=XXX&key=XXX&accesskeySecret=XXX&insecureSkipVerify=XXX&cacheDir=XXX
+//		etcd://ip:port?username=XXX&password=XXX&key=key
+func LoadFromConfigAddr(configAddr string) error {
+	source, err := NewDataSource(configAddr)
+	if err != nil {
+		return err
+	}
+	return LoadFromDataSource(source, DefaultConfigUnmarshaler)
+}
+
+// LoadFromReader Load loads configuration from provided provider with default defaultConfiguration.
 func LoadFromReader(r io.Reader, unmarshaler Unmarshaler) error {
 	return defaultConfiguration.LoadFromReader(r, unmarshaler)
 }
