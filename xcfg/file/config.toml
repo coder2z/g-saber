@@ -1,0 +1,48 @@
+[app]
+AppName = "testCyj"
+
+[server]
+    ip="0.0.0.0"
+    port=1234
+    locale = "zh"
+
+[mysql.main]
+    tablePrefix = "testCyj"
+    host = "127.0.0.1"
+    username = "root"
+    password = "root"
+    dbName = "testCyj"
+    type = "mysql"
+    port = "3306"
+    debug = true
+
+[redis.main]
+    addr = "127.0.0.1:6379"
+
+[email.main]
+    host = "smtp.yeah.net"
+    port = 465
+    username = ""
+    password = ""
+
+[sms.main]
+    area = "cn-hangzhou"
+    accessKeyId = ""
+    accessSecret = ""
+
+[xlog]
+    name = "testCyj.log"
+    dir = "."
+    level = ""
+    async = false
+    debug = true
+    add_caller= true
+    caller_skip=2
+
+[app.govern]
+    host = "127.0.0.1"
+    port = 4569
+
+[trace.jaeger]
+    [trace.jaeger.reporter]
+        localAgentHostPort = "127.0.0.1:6831"
