@@ -1,7 +1,7 @@
 package xcfg
 
 import (
-	"github.com/pelletier/go-toml"
+	"github.com/BurntSushi/toml"
 	"io"
 
 	"github.com/davecgh/go-spew/spew"

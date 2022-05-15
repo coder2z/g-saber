@@ -3,6 +3,7 @@ module github.com/coder2z/g-saber
 go 1.16
 
 require (
+	github.com/BurntSushi/toml v0.3.1
 	github.com/davecgh/go-spew v1.1.1
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/go-playground/locales v0.13.0
@@ -12,7 +13,6 @@ require (
 	github.com/json-iterator/go v1.1.10
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/modern-go/reflect2 v1.0.1
-	github.com/pelletier/go-toml v1.2.0
 	github.com/philchia/agollo/v4 v4.1.4
 	github.com/pkg/errors v0.8.1
 	github.com/robfig/cron/v3 v3.0.1
